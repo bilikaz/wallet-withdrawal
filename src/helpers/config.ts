@@ -12,7 +12,7 @@ export interface ChainData {
   wallet_abi: AbiItem[];
   token_address: string;
   token_abi: AbiItem[];
-  token_approve: number;
+  withdraw_fee: string;
   native_currency: {
     symbol: string;
     name: string;
@@ -33,7 +33,7 @@ const supportedChains: ChainData[] = [
     wallet_abi: [],
     token_address: "",
     token_abi: [],
-    token_approve: 0,
+    withdraw_fee: "0.001 TokenX",
     native_currency: {
       symbol: "ETH",
       name: "Ethereum",
@@ -61,7 +61,7 @@ const supportedChains: ChainData[] = [
       {"constant":true,"name":"symbol","inputs":[],"outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},
       {"constant":true,"name":"allowance","inputs":[{"name":"_owner","type":"address"},{"name":"_spender","type":"address"}],"outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"payable":true,"stateMutability":"payable","type":"fallback"}
     ],
-    token_approve: 0,
+    withdraw_fee: "0.001 TokenX",
     native_currency: {
       symbol: "ETH",
       name: "Ethereum",
@@ -80,7 +80,7 @@ const supportedChains: ChainData[] = [
     wallet_abi: [],
     token_address: "",
     token_abi: [],
-    token_approve: 0,
+    withdraw_fee: "0.001 TokenX",
     native_currency: {
       symbol: "ETH",
       name: "Ethereum",
@@ -99,7 +99,7 @@ const supportedChains: ChainData[] = [
     wallet_abi: [],
     token_address: "",
     token_abi: [],
-    token_approve: 0,
+    withdraw_fee: "0.001 TokenX",
     native_currency: {
       symbol: "BNB",
       name: "BNB",
@@ -118,7 +118,7 @@ const supportedChains: ChainData[] = [
     wallet_abi: [],
     token_address: "",
     token_abi: [],
-    token_approve: 0,
+    withdraw_fee: "0.001 TokenX",
     native_currency: {
       symbol: "MATIC",
       name: "MATIC",
@@ -137,7 +137,7 @@ const supportedChains: ChainData[] = [
     wallet_abi: [],
     token_address: "",
     token_abi: [],
-    token_approve: 0,
+    withdraw_fee: "0.001 TokenX",
     native_currency: {
       symbol: "AVAX",
       name: "AVAX",

@@ -21,7 +21,6 @@ interface AppState {
   withdrawalAmount: number
   withdrawalAddress: string
   validWithdrawalAddress: boolean
-  allowance: number
 }
 
 const INITIAL_STATE: AppState = {
@@ -40,7 +39,6 @@ const INITIAL_STATE: AppState = {
   withdrawalAmount: 0,
   withdrawalAddress: "",
   validWithdrawalAddress: false,
-  allowance: 0
 }
 
 class App extends Component { 
@@ -171,7 +169,7 @@ class App extends Component {
             ],
           });
         } catch (error:any) {
-          alert('Unable to add new network: '+chainData.name+'. Please try to add this network manually.');
+          alert('Unable to add new network: '+chainData.name+'. Please try to add this network manually.')
           console.log(error.message)
         }
       }
@@ -181,26 +179,24 @@ class App extends Component {
   public getAccountAssets = async () => {
     const { web3, address, chainId, networkSupported } = this.state;
     const chainData = getChainData(chainId)
-    this.setState({ fetching: true });
+    this.setState({ fetching: true })
     if ( networkSupported ) {
       try {
         await this.token.methods.balanceOf(address).call().then( async (balance: string) => {
           await this.setState({ 
             fetching: false, 
-            balance: Number(balance) > 0 ? web3.utils.toBN( balance ).div(
-              web3.utils.toBN( 10 ).pow( web3.utils.toBN( String( chainData.native_currency.decimals ) ) )
-            ).toString() : balance
+            balance: web3.utils.fromWei(balance, 'ether')
           })
         } )
       } catch (error) {
         console.error(error);
-        await this.setState({ fetching: false });
+        await this.setState({ fetching: false })
       }
     } else {
-      await this.setState({ balance: "0" });
+      await this.setState({ balance: "0" })
     }
     web3.eth.getBalance(address).then( (balance: any) => {
-      this.setState({ chainBalance: web3.utils.fromWei(balance, 'ether') });
+      this.setState({ chainBalance: web3.utils.fromWei(balance, 'ether') })
     } )
   }
 
@@ -243,9 +239,7 @@ class App extends Component {
             await this.contract.methods.request(
               withdrawal_id,
               withdrawalAddress,
-              web3.utils.toBN( this.state.withdrawalAmount ).mul(
-                web3.utils.toBN( 10 ).pow( web3.utils.toBN( String( chainData.native_currency.decimals ) ) )
-              ).toString() 
+              web3.utils.toWei(String(this.state.withdrawalAmount), 'ether')
             ).send({from: address})
             // Set some success state here
             this.setState({ 
@@ -280,7 +274,6 @@ class App extends Component {
       networkSupported,
       balance,
       chainBalance,
-      allowance,
     } = this.state;
 
     const chainData = getChainData(chainId)
@@ -334,6 +327,7 @@ class App extends Component {
                 <span>Contract address: {chainData.wallet_address}</span><br/>
                 <span>Token address: {chainData.token_address}</span><br/>
                 <span>Token balance: {balance}</span><br/>
+                <span>Withdrawal fee: {chainData.withdraw_fee}</span><br/>
               </div>
             : <div>
                 <span>Network unsupported.</span><br/>
