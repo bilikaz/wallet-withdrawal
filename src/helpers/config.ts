@@ -13,6 +13,7 @@ export interface ChainData {
   token_address: string;
   token_abi: AbiItem[];
   withdraw_fee: string;
+  use_native_currency: boolean;
   native_currency: {
     symbol: string;
     name: string;
@@ -34,6 +35,7 @@ const supportedChains: ChainData[] = [
     token_address: "",
     token_abi: [],
     withdraw_fee: "0.001 TokenX",
+    use_native_currency: true,
     native_currency: {
       symbol: "ETH",
       name: "Ethereum",
@@ -61,7 +63,8 @@ const supportedChains: ChainData[] = [
       {"constant":true,"name":"symbol","inputs":[],"outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},
       {"constant":true,"name":"allowance","inputs":[{"name":"_owner","type":"address"},{"name":"_spender","type":"address"}],"outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"payable":true,"stateMutability":"payable","type":"fallback"}
     ],
-    withdraw_fee: "0.001 TokenX",
+    withdraw_fee: "0.001 FF",
+    use_native_currency: false,
     native_currency: {
       symbol: "ETH",
       name: "Ethereum",
@@ -76,11 +79,14 @@ const supportedChains: ChainData[] = [
     chain_id: 4,
     network_id: 4,
     rpc_url: "https://rinkeby.infura.io/v3/%API_KEY%",
-    wallet_address: "",
-    wallet_abi: [],
+    wallet_address: "0xdE2509e46C941581C6f726FB8Ae0f729598d0E26",
+    wallet_abi: [
+      {"constant":false,"name":"request","inputs":[{"internalType":"uint256","name":"__withdrawalId","type":"uint256"},{"internalType":"address","name":"__recipient","type":"address"},{"internalType":"uint256","name":"__amount","type":"uint256"}],"outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"}
+    ],
     token_address: "",
     token_abi: [],
-    withdraw_fee: "0.001 TokenX",
+    withdraw_fee: "0.0001 ETH",
+    use_native_currency: true,
     native_currency: {
       symbol: "ETH",
       name: "Ethereum",
@@ -100,6 +106,7 @@ const supportedChains: ChainData[] = [
     token_address: "",
     token_abi: [],
     withdraw_fee: "0.001 TokenX",
+    use_native_currency: false,
     native_currency: {
       symbol: "BNB",
       name: "BNB",
@@ -119,6 +126,7 @@ const supportedChains: ChainData[] = [
     token_address: "",
     token_abi: [],
     withdraw_fee: "0.001 TokenX",
+    use_native_currency: false,
     native_currency: {
       symbol: "MATIC",
       name: "MATIC",
@@ -138,6 +146,7 @@ const supportedChains: ChainData[] = [
     token_address: "",
     token_abi: [],
     withdraw_fee: "0.001 TokenX",
+    use_native_currency: false,
     native_currency: {
       symbol: "AVAX",
       name: "AVAX",

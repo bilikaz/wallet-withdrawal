@@ -86,18 +86,20 @@ class App extends Component {
     const networkId = await web3.eth.net.getId()
     const chainId = await web3.eth.getChainId()
     const chainData = getChainData(chainId)
-    const networkSupported = !!chainData.wallet_address.length && !!chainData.token_address.length
+    const networkSupported = !!chainData.wallet_address.length && (chainData.use_native_currency || !!chainData.token_address.length)
     if ( await web3.eth.net.isListening() && networkSupported ) {
       this.contract =
         new web3.eth.Contract(
           chainData.wallet_abi,
           chainData.wallet_address
         )
-      this.token =
-        new web3.eth.Contract(
-          chainData.token_abi,
-          chainData.token_address
-        )
+      if ( !!chainData.token_address.length ) {
+        this.token =
+          new web3.eth.Contract(
+            chainData.token_abi,
+            chainData.token_address
+          )
+      }
     } else {
       this.contract = {}
       this.token = {}
@@ -180,7 +182,7 @@ class App extends Component {
     const { web3, address, chainId, networkSupported } = this.state;
     const chainData = getChainData(chainId)
     this.setState({ fetching: true })
-    if ( networkSupported ) {
+    if ( networkSupported && !chainData.use_native_currency ) {
       try {
         await this.token.methods.balanceOf(address).call().then( async (balance: string) => {
           await this.setState({ 
@@ -325,8 +327,12 @@ class App extends Component {
             ? <div>
                 <span>Network supported.</span><br/>
                 <span>Contract address: {chainData.wallet_address}</span><br/>
-                <span>Token address: {chainData.token_address}</span><br/>
-                <span>Token balance: {balance}</span><br/>
+                {!chainData.use_native_currency &&
+                  <Fragment>
+                    <span>Token address: {chainData.token_address}</span><br/>
+                    <span>Token balance: {balance}</span><br/>
+                  </Fragment> 
+                }
                 <span>Withdrawal fee: {chainData.withdraw_fee}</span><br/>
               </div>
             : <div>
