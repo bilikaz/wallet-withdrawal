@@ -233,7 +233,7 @@ class App extends Component {
         // Only a mockup here
         const call_api = async (): Promise<number> => {
           return new Promise<number>((resolve) => {
-            resolve(1234)
+            resolve(Math.round(Date.now() / 1000))
           })
         }
         call_api().then(async (withdrawal_id: number) => {
